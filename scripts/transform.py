@@ -38,6 +38,25 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # Remove rows with critical missing data (e.g., no country or year)
     if 'iso' in cleaned_df.columns:
         cleaned_df = cleaned_df[cleaned_df['iso'].notna() & (cleaned_df['iso'] != '')]
+        
+    # Drop 2024-2025 data for both Disaster and HDI datasets
+    # Check for year columns and filter out 2024-2025
+    if 'startYear' in cleaned_df.columns:  # Disaster dataset
+        initial_count = len(cleaned_df)
+        cleaned_df = cleaned_df[~cleaned_df['startYear'].isin([2024, 2025])]
+        dropped = initial_count - len(cleaned_df)
+        if dropped > 0:
+            print(f"    ℹ️  Dropped {dropped} disaster records from 2024-2025")
+    
+    if 'year' in cleaned_df.columns:  # HDI dataset
+        initial_count = len(cleaned_df)
+        cleaned_df = cleaned_df[~cleaned_df['year'].isin([2024, 2025])]
+        dropped = initial_count - len(cleaned_df)
+        if dropped > 0:
+            print(f"    ℹ️  Dropped {dropped} HDI records from 2024-2025")
+            
+            
+    
     
     return cleaned_df
 
