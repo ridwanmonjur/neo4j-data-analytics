@@ -6,7 +6,7 @@ WORKDIR /
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-WORKDIR /scrilspts
+WORKDIR /scripts
 
 COPY scripts/ .
 
