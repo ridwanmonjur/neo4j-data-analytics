@@ -55,7 +55,50 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         if dropped > 0:
             print(f"    ℹ️  Dropped {dropped} HDI records from 2024-2025")
             
-            
+    # Drop territories and entities not in HDI dataset
+    # ISO codes without HDI coverage
+    excluded_iso_codes = [
+        'TWN',  # Taiwan
+        'PRI',  # Puerto Rico
+        'SCG',  # Serbia Montenegro (dissolved)
+        'GUM',  # Guam
+        'CYM',  # Cayman Islands
+        'NCL',  # New Caledonia
+        'SPI',  # Canary Islands
+        'TCA',  # Turks and Caicos
+        'MAC',  # Macao
+        'VGB',  # British Virgin Islands
+        'VIR',  # US Virgin Islands
+        'MTQ',  # Martinique
+        'REU',  # Réunion
+        'BMU',  # Bermuda
+        'GUF',  # French Guiana
+        'ANT',  # Netherlands Antilles
+        'GLP',  # Guadeloupe
+        'SHN',  # Saint Helena
+        'COK',  # Cook Islands
+        'MNP',  # Northern Mariana Islands
+        'ASM',  # American Samoa
+        'NIU',  # Niue
+        'TKL',  # Tokelau
+        'MSR',  # Montserrat
+        'PYF',  # French Polynesia
+        'MYT',  # Mayotte
+        'WLF',  # Wallis and Futuna
+        'AIA',  # Anguilla
+        'BLM',  # Saint Barthélemy
+        'MAF',  # Saint Martin
+        'SXM',  # Sint Maarten
+        'CUW',  # Curaçao
+    ]
+    
+    if 'iso' in cleaned_df.columns:
+        initial_count = len(cleaned_df)
+        cleaned_df = cleaned_df[~cleaned_df['iso'].isin(excluded_iso_codes)]
+        dropped = initial_count - len(cleaned_df)
+        if dropped > 0:
+            print(f"    ℹ️  Dropped {dropped} records from territories/regions without HDI data")
+          
     
     
     return cleaned_df
