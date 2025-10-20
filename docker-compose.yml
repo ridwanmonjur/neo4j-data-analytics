@@ -50,11 +50,11 @@ services:
     environment:
       NEODASH_SERVER_PORT: "5005"
       ssoEnabled: "false"
+      standaloneEnabled: "false"
+      NEODASH_NEO4J_URI: "neo4j://exp_neo4j:7687"
     depends_on:
       exp_neo4j:
         condition: service_healthy
-    volumes:
-      - neodash_data:/data
     networks:
       - exp_network
 
@@ -64,7 +64,7 @@ services:
     container_name: data-loader
     restart: "no"
     volumes:
-      - ./scripts:/scripts
+      - ./scripts:/scripts 
       - ./data:/data
       - ./neo4j/import:/import
     working_dir: /scripts
@@ -84,7 +84,6 @@ volumes:
   neo4j_data:
   neo4j_logs:
   neo4j_plugins:
-  neodash_data:
   neo4j_conf:
 
 
