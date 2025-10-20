@@ -2,7 +2,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 load_dotenv()
-DATA_PATH = os.getenv("DATA_PATH", "./data")
+DATA_PATH = os.getenv("DATA_PATH", "../data")
 
 def hdi_transform() -> None:
 
